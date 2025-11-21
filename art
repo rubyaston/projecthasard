@@ -1,0 +1,29 @@
+<button id="regen">Regénérer</button>
+<canvas id="myCanvas"></canvas>
+<script>
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function randomColor() { /* pareil */ }
+function drawLine() { /* pareil */ }
+function drawCircle() { /* pareil */ }
+
+function generate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for(let i=0; i<50; i++) drawLine();
+  for(let i=0; i<40; i++) drawCircle();
+}
+
+// Premier dessin
+generate();
+
+// Bouton regénérer
+document.getElementById('regen').addEventListener('click', generate);
+</script>
