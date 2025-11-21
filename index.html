@@ -2,53 +2,92 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Projet Hasard</title>
+<title>Fleurs Aléatoires</title>
 <style>
   body {
     margin: 0;
-    background-color: white;
+    background-color: black; /* fond noir */
+    overflow: hidden; /* pas de scroll */
   }
   canvas {
     display: block;
   }
+  #regen {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
-<canvas id="myCanvas"></canvas>
+<button id="regen">Regénérer</button>
+<canvas id="canvas"></canvas>
+
 <script>
-const canvas = document.getElementById('myCanvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-function randomColor() {
-  const r = Math.floor(Math.random()*256);
-  const g = Math.floor(Math.random()*256);
-  const b = Math.floor(Math.random()*256);
-  return `rgb(${r},${g},${b})`;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-function drawLine() {
-  ctx.strokeStyle = randomColor();
-  ctx.beginPath();
-  ctx.moveTo(Math.random()*canvas.width, Math.random()*canvas.height);
-  ctx.lineTo(Math.random()*canvas.width, Math.random()*canvas.height);
-  ctx.stroke();
-}
+// Couleurs pastel pour les fleurs
+const colors = [
+  'rgba(255,182,193,0.8)', // rose clair
+  'rgba(255,240,245,0.8)',
+  'rgba(255,192,203,0.8)',
+  'rgba(176,224,230,0.8)', // bleu pastel
+  'rgba(152,251,152,0.8)', // vert pastel
+  'rgba(255,255,224,0.8)'  // jaune pastel
+];
 
-function drawCircle() {
-  ctx.fillStyle = randomColor();
-  const x = Math.random()*canvas.width;
-  const y = Math.random()*canvas.height;
-  const r = Math.random()*50 + 10;
+// Fonction pour dessiner une “fleur” simple
+function drawFlower(x, y, radius, petals, color) {
+  for (let i = 0; i < petals; i++) {
+    const angle = (i * 2 * Math.PI) / petals;
+    const petalX = x + Math.cos(angle) * radius;
+    const petalY = y + Math.sin(angle) * radius;
+    ctx.beginPath();
+    ctx.arc(petalX, petalY, radius * 0.6, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  // centre de la fleur
   ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI*2);
+  ctx.arc(x, y, radius * 0.5, 0, 2 * Math.PI);
+  ctx.fillStyle = 'white';
   ctx.fill();
 }
 
-// Génération aléatoire
-for(let i=0; i<50; i++) drawLine();
-for(let i=0; i<40; i++) drawCircle();
+// Fonction pour générer le tableau aléatoire de fleurs
+function generate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const flowerCount = 30; // nombre de fleurs
+  for (let i = 0; i < flowerCount; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const radius = Math.random() * 40 + 20; // taille aléatoire
+    const petals = Math.floor(Math.random() * 5 + 5); // 5 à 9 pétales
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    drawFlower(x, y, radius, petals, color);
+  }
+}
+
+// Premier rendu
+generate();
+
+// Bouton Regénérer
+document.getElementById('regen').addEventListener('click', generate);
 </script>
 </body>
 </html>
