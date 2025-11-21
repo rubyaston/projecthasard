@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Fleurs Aléatoires</title>
+<title>Fleurs Aléatoires Colorées</title>
 <style>
   body {
     margin: 0;
     background-color: black; /* fond noir */
-    overflow: hidden; /* pas de scroll */
+    overflow: hidden;
   }
   canvas {
     display: block;
@@ -40,17 +40,23 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// Couleurs pastel pour les fleurs
+// Couleurs pastel et vives pour les pétales
 const colors = [
   'rgba(255,182,193,0.8)', // rose clair
-  'rgba(255,240,245,0.8)',
+  'rgba(255,105,180,0.8)', // rose vif
+  'rgba(255,240,245,0.8)', 
   'rgba(255,192,203,0.8)',
   'rgba(176,224,230,0.8)', // bleu pastel
+  'rgba(0,191,255,0.8)',   // bleu vif
   'rgba(152,251,152,0.8)', // vert pastel
-  'rgba(255,255,224,0.8)'  // jaune pastel
+  'rgba(60,179,113,0.8)',  // vert vif
+  'rgba(255,255,224,0.8)', // jaune pastel
+  'rgba(255,215,0,0.8)',   // jaune vif
+  'rgba(238,130,238,0.8)', // violet pastel
+  'rgba(147,112,219,0.8)'  // violet vif
 ];
 
-// Fonction pour dessiner une “fleur” simple
+// Fonction pour dessiner une fleur simple
 function drawFlower(x, y, radius, petals, color) {
   for (let i = 0; i < petals; i++) {
     const angle = (i * 2 * Math.PI) / petals;
